@@ -42,16 +42,22 @@ public class HelloServlet extends HttpServlet {
 
         int count = Integer.parseInt(visitCount) + 1;
         Cookie visitCookie = new Cookie("visitCount", Integer.toString(count));
-        visitCookie.setMaxAge(60 * 60 * 24); // зберігається протягом одного дня
+        visitCookie.setMaxAge(60 * 60 * 24);
         response.addCookie(visitCookie);
 
         // Hello
-        String name = request.getParameter("name");
+//        String name = request.getParameter("name"); PRAC 2
         PrintWriter out = response.getWriter();
         ServletContext context = getServletContext();
 
         out.println("<html><body>");
-        out.println("<h1>Hello, " + (name != null ? name : "World") + "!</h1>");
+        out.println("<h1>Hello, " + user + "!</h1>");
+        out.println("<p> Visit count: "+visitCookie.getValue() +"</p>");
+        out.println("<p>Session ID: " + session.getId() + "</p>");
+        out.println("<p>Session Creation Time: " + new java.util.Date(session.getCreationTime()) + "</p>");
+        out.println("<p>Last Accessed Time: " + new java.util.Date(session.getLastAccessedTime()) + "</p>");
+        out.println("<p>Max Inactive Interval (seconds): " + session.getMaxInactiveInterval() + "</p>");
+
 
         out.println("<h2>Servlet Context Information:</h2>");
 
