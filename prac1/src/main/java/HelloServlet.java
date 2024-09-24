@@ -1,10 +1,8 @@
-package org.example.prac1;
-
 import java.io.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "hello")
 public class HelloServlet extends HttpServlet {
     private String message;
 
@@ -16,9 +14,11 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/html");
 
         // Hello
+        String name = request.getParameter("name");
         PrintWriter out = response.getWriter();
+
         out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println("<h1>Hello, " + (name != null ? name : "World") + "!</h1>");
         out.println("</body></html>");
     }
 

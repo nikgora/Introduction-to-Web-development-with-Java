@@ -1,12 +1,14 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>JSP - Hello World</title>
+  <title>Index Page</title>
 </head>
 <body>
-<h1><%= "Hi World!" %></h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<h1>Welcome to the servlet example!</h1>
+<form action="hello" method="get">
+  <label for="name">Enter your name:</label>
+  <input type="text" id="name" name="name">
+  <button type="submit">Submit</button>
+</form>
 </body>
 </html>
