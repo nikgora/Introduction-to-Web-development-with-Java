@@ -63,7 +63,7 @@
 
 <h2>Number Formatting</h2>
 <%
-  double largeNumber = 12345678.9;
+  double largeNumber = 12345678.9123;
   request.setAttribute("largeNumber", largeNumber);
 %>
 
