@@ -19,11 +19,11 @@ public class HelloServlet extends HttpServlet {
 
         session.setMaxInactiveInterval(5 * 60);
 
-        String user = (String) session.getAttribute("user");
+        String user = (String) session.getAttribute("userprac");
         if (user == null) {
             user = request.getParameter("name");
             if (user != null) {
-                session.setAttribute("user", user);
+                session.setAttribute("userprac", user);
             } else {
                 user = "Guest";
             }

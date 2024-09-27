@@ -70,5 +70,7 @@
 <p>Formatted Number:
   <fmt:formatNumber value="${largeNumber}" type="number" maxFractionDigits="2"/>
 </p>
+<a href="<%= request.getContextPath() %>/logout">Logout</a>
+
 </body>
 </html>
