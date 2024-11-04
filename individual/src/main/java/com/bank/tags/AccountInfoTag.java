@@ -1,8 +1,9 @@
-// AccountInfoTag.java
+package com.bank.tags;// com.bank.tags.AccountInfoTag.java
 
 import java.io.IOException;
 import jakarta.servlet.jsp.*;
 import jakarta.servlet.jsp.tagext.SimpleTagSupport;
+import com.bank.model.User;
 
 public class AccountInfoTag extends SimpleTagSupport {
     private User user;
@@ -17,5 +18,6 @@ public class AccountInfoTag extends SimpleTagSupport {
             out.print("<p>Користувач: " + user.getUsername() + "</p>");
             out.print("<p>Email: " + user.getEmail() + "</p>");
         }
+        else {
     }
 }

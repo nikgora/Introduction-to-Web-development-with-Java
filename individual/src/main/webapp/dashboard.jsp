@@ -1,16 +1,17 @@
 <!-- dashboard.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib prefix="bank" uri="http://www.bank.com/tags" %>
 <html>
 <head>
   <title>Особистий кабінет</title>
 </head>
 <body>
-<h2>Ласкаво просимо, ${user.username}</h2>
-
 <!-- Використання custom tag -->
 <bank:accountInfo user="${user}" />
+
+<!-- Статичний контент -->
+<h2>Ласкаво просимо, ${user.username}</h2>
 
 <!-- Динамічний контент -->
 <h3>Ваші рахунки:</h3>

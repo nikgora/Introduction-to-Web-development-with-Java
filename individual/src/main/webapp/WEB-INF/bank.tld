@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<!-- WEB-INF/bank.tld -->
 <taglib xmlns="http://java.sun.com/xml/ns/javaee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                            http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
         version="2.1">
     <tlib-version>1.0</tlib-version>
     <short-name>bank</short-name>
     <uri>http://www.bank.com/tags</uri>
     <tag>
         <name>accountInfo</name>
-        <tag-class>AccountInfoTag</tag-class>
+        <tag-class>com.bank.tags.AccountInfoTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>user</name>
