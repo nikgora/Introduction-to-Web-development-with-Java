@@ -1,6 +1,7 @@
 package com.bank.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents a bank account with a specific type and balance.
@@ -10,6 +11,7 @@ public class Account implements Serializable {
 
     private String type;      // Type of the account (e.g., Savings, Checking)
     private double balance;   // Current balance of the account
+    private String currency;  // Currency of the account
 
     /**
      * Default constructor.
@@ -18,71 +20,51 @@ public class Account implements Serializable {
     }
 
     /**
-     * Parameterized constructor to initialize Account with type and balance.
+     * Parameterized constructor to initialize Account with type, balance, and currency.
      *
-     * @param type    The type of the account.
-     * @param balance The initial balance of the account.
+     * @param type     The type of the account.
+     * @param balance  The initial balance of the account.
+     * @param currency The currency of the account.
      */
-    public Account(String type, double balance) {
+    public Account(String type, double balance, String currency) {
         this.type = type;
         this.balance = balance;
+        this.currency = currency;
     }
 
-    /**
-     * Gets the type of the account.
-     *
-     * @return The account type.
-     */
     public String getType() {
         return type;
     }
 
-    /**
-     * Sets the type of the account.
-     *
-     * @param type The account type to set.
-     */
     public void setType(String type) {
         this.type = type;
     }
 
-    /**
-     * Gets the current balance of the account.
-     *
-     * @return The account balance.
-     */
     public double getBalance() {
         return balance;
     }
 
-    /**
-     * Sets the current balance of the account.
-     *
-     * @param balance The account balance to set.
-     */
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    /**
-     * Provides a string representation of the Account object.
-     *
-     * @return A string detailing the account type and balance.
-     */
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "type='" + type + '\'' +
                 ", balance=" + balance +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 
-    /**
-     * Checks equality based on account type and balance.
-     *
-     * @param o The object to compare with.
-     * @return True if both accounts have the same type and balance, else false.
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,21 +73,16 @@ public class Account implements Serializable {
         Account account = (Account) o;
 
         if (Double.compare(account.balance, balance) != 0) return false;
-        return type != null ? type.equals(account.type) : account.type == null;
+        if (!Objects.equals(type, account.type)) return false;
+        return Objects.equals(currency, account.currency);
     }
 
-    /**
-     * Generates a hash code based on account type and balance.
-     *
-     * @return The hash code.
-     */
     @Override
     public int hashCode() {
         int result;
-        long temp;
         result = type != null ? type.hashCode() : 0;
-        temp = Double.doubleToLongBits(balance);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(balance);
+        result = 31 * result + (currency != null ? currency.hashCode() : 0);
         return result;
     }
 }

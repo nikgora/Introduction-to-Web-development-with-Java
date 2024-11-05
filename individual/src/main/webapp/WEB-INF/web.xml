@@ -11,11 +11,11 @@
     </jsp-config>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>com.bank.RegisterServlet</servlet-class>
+        <servlet-class>com.bank.servlet.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.bank.LoginServlet</servlet-class>
+        <servlet-class>com.bank.servlet.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -28,5 +28,21 @@
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.bank.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>DatabaseConnectionFilter</filter-name>
+        <filter-class>com.bank.filter.DatabaseConnectionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DatabaseConnectionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
 

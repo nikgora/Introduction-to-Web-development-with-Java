@@ -1,10 +1,11 @@
-package com.bank;// com.bank.RegisterServlet.java
+package com.bank.servlet;// com.bank.servlet.RegisterServlet.java
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
+import com.bank.dao.UserDAO;
 import com.bank.model.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -52,7 +53,11 @@ public class RegisterServlet extends HttpServlet {
         user.setEmail(email);
 
         // Збереження користувача (логіка збереження в базу даних)
-        // UserDAO.save(user);
+        try {
+            UserDAO.saveUser(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Перенаправлення на сторінку авторизації
         response.sendRedirect("login.jsp");
@@ -61,3 +66,5 @@ public class RegisterServlet extends HttpServlet {
         return EMAIL_PATTERN.matcher(email).matches();
     }
 }
+
+
