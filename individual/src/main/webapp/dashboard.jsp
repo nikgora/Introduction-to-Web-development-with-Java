@@ -40,6 +40,10 @@
           event.preventDefault();
         }
       });
+      const message = document.getElementById("message");
+      if (message) {
+        alert(message.innerText);
+      }
     });
   </script>
 </head>
@@ -49,6 +53,10 @@
 
 <!-- Статичний контент -->
 <h2>Ласкаво просимо, ${user.username}</h2>
+
+<c:if test="${not empty message}">
+  <div id="message" style="display: block; color: red;">${message}</div>
+</c:if>
 
 <!-- Динамічний контент -->
 <h3>Ваші рахунки:</h3>
@@ -66,18 +74,18 @@
       <button class="toggleFormButton" data-form-id="depositForm-${account.type}" data-show-text="Додати гроші">Додати гроші</button>
       <div id="depositForm-${account.type}" style="display: none;">
         <form action="deposit" method="post" style="display:inline;">
-          <input type="hidden" name="accountType" value="${account.type}">
+          <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
-          <input type="number" name="amount" placeholder="Сума" required>
+          <input min="0" type="number" name="amount" placeholder="Сума" required>
           <button type="submit">Додати гроші</button>
         </form>
       </div>
       <button class="toggleFormButton" data-form-id="withdrawForm-${account.type}" data-show-text="Зняти гроші">Зняти гроші</button>
       <div id="withdrawForm-${account.type}" style="display: none;">
         <form action="withdraw" method="post" style="display:inline;">
-          <input type="hidden" name="accountType" value="${account.type}">
+          <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
-          <input type="number" name="amount" placeholder="Сума" required>
+          <input min="0" type="number" name="amount" placeholder="Сума" required>
           <button type="submit">Зняти гроші</button>
         </form>
       </div>

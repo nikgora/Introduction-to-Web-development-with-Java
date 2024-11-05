@@ -13,31 +13,27 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/withdraw")
-public class WithdrawServlet extends HttpServlet {
+@WebServlet("/deposit")
+public class DepositServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type = request.getParameter("type");
-
         double amount = Double.parseDouble(request.getParameter("amount"));
         String currency = request.getParameter("currency");
         HttpSession session = request.getSession();
-
         User user = (User) session.getAttribute("user");
         Account account = (Account) user.getAccounts().stream()
                 .filter(a -> a.getType().equals(type) && a.getCurrency().equals(currency))
                 .findFirst()
                 .orElse(null);
-
-        if (amount > account.getBalance()) {
-            request.setAttribute("message", "Insufficient balance");
+        if (amount + account.getBalance() > 10e13) {
+            request.setAttribute("message", "Deposit amount exceeds the limit 10^13");
             request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
             return;
         }
-
         try {
             user.getAccounts().remove(account);
-            account.setBalance(account.getBalance() - amount);
+            account.setBalance(account.getBalance() + amount);
             AccountDAO.updateAccount(account);
             user.getAccounts().add(account);
             session.setAttribute("user", user);
