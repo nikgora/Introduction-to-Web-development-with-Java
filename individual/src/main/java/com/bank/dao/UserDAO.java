@@ -84,25 +84,7 @@ public  class UserDAO {
             updateUser(user);
         }
     }
-    //write function that returns all accounts from accounts table for a user
-    public static List<Account> getAccountsByUser(User user) throws SQLException {
-        List<Account> accounts = new ArrayList<>();
-        String sql = "SELECT * FROM accounts WHERE user_id = ?";
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, getUserIdByUsername(user.getUsername()));
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Account account = new Account();
-                    account.setBalance(rs.getDouble("balance"));
-                    account.setType(rs.getString("type"));
-                    account.setCurrency(rs.getString("currency"));
-                    accounts.add(account);
-                }
-            }
-        }
-        return accounts;
-    }
+
 
 
 

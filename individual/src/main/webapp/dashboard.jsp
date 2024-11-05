@@ -7,6 +7,18 @@
 <html>
 <head>
   <title>Особистий кабінет</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("showFormButton").addEventListener("click", function() {
+        let form = document.getElementById("addAccountForm");
+        if (form.style.display === "none") {
+          form.style.display = "block";
+        } else {
+          form.style.display = "none";
+        }
+      });
+    });
+  </script>
 </head>
 <body>
 <!-- Використання custom tag -->
@@ -31,5 +43,19 @@
     </li>
   </c:forEach>
 </ul>
+
+<button id="showFormButton">Додати рахунок</button>
+<div id="addAccountForm" style="display: none;">
+<form action="addAccount" method="post">
+  <label for="type">Ім'я рахунку:</label>
+  <input type="text" id="type" name="type" required>
+  <label for="balance">Баланс:</label>
+  <input type="number" id="balance" name="balance" required>
+  <label for="currency">Валюта:</label>
+  <input type="text" id="currency" name="currency">
+  <button type="submit">Додати рахунок</button>
+</form>
+</div>
+
 </body>
 </html>

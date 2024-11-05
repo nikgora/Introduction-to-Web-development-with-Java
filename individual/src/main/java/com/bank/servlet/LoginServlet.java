@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.bank.dao.AccountDAO;
 import com.bank.dao.UserDAO;
 import com.bank.model.User;
 import jakarta.servlet.*;
@@ -20,7 +21,9 @@ public class LoginServlet extends HttpServlet {
             if (validateUser(username, password)) {
                 HttpSession session = request.getSession();
                 User user = UserDAO.getUserByUsername(username);
-                user.setAccounts(UserDAO.getAccountsByUser(user));
+                if (user != null) {
+                    user.setAccounts(AccountDAO.getAccountsByUser(user));
+                }
                 session.setAttribute("user", user);
 
                 response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
