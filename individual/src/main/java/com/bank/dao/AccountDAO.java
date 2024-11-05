@@ -65,4 +65,13 @@ public class AccountDAO {
             stmt.executeUpdate();
         }
     }
+
+    public static void deleteAccountsByUser(User user) throws SQLException {
+        String sql = "DELETE FROM accounts WHERE user_id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, getUserIdByUsername(user.getUsername()));
+            stmt.executeUpdate();
+        }
+    }
 }

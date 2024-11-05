@@ -12,7 +12,10 @@
   Пароль: <input type="password" name="password" required/><br/>
   <input type="submit" value="Увійти"/>
 </form>
-<c:if test="${'invalid'.equals(param.error)}">
+<form action="register.jsp" method="get">
+<button type="submit">Зареєструватися</button>
+</form>
+  <c:if test="${'invalid'.equals(param.error)}">
   <p style="color:red;">Неправильний логін або пароль!</p>
 </c:if>
 </body>

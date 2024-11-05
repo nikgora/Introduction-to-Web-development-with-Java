@@ -12,19 +12,22 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-@WebServlet("/addAccount")
-public class AddAccountServlet extends HttpServlet {
-    //write code for doPost method
+
+@WebServlet("/withdraw")
+public class WithdrawServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type = request.getParameter("type");
-        double balance = Double.parseDouble(request.getParameter("balance"));
+        double amount = Double.parseDouble(request.getParameter("amount"));
         String currency = request.getParameter("currency");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        Account account = new Account(type, balance, currency);
+        Account account = (Account) user.getAccounts().stream()
+                .filter(a -> a.getType().equals(type) && a.getCurrency().equals(currency))
+                .findFirst()
+                .orElse(null);
         try {
-            AccountDAO.createAccount(account, user);
+            AccountDAO.updateAccount(account);
             user.getAccounts().add(account);
             session.setAttribute("user", user);
             response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
@@ -32,5 +35,4 @@ public class AddAccountServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
 }

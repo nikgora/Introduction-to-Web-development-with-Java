@@ -29,5 +29,8 @@
 
     <input type="submit" value="Register">
 </form>
+<form action="login.jsp" method="get">
+    <button type="submit">Увійти</button>
+</form>
 </body>
 </html>
