@@ -72,7 +72,7 @@
         </c:otherwise>
       </c:choose>
       <button class="toggleFormButton" data-form-id="depositForm-${account.type}" data-show-text="Додати гроші">Додати гроші</button>
-      <div id="depositForm-${account.type}" style="display: none;">
+      <div id="depositForm-${account.type}" class="formContainer" style="display: none;">
         <form action="deposit" method="post" style="display:inline;">
           <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
@@ -81,12 +81,29 @@
         </form>
       </div>
       <button class="toggleFormButton" data-form-id="withdrawForm-${account.type}" data-show-text="Зняти гроші">Зняти гроші</button>
-      <div id="withdrawForm-${account.type}" style="display: none;">
+      <div id="withdrawForm-${account.type}" class="formContainer" style="display: none;">
         <form action="withdraw" method="post" style="display:inline;">
           <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
           <input min="0" type="number" name="amount" placeholder="Сума" required>
           <button type="submit">Зняти гроші</button>
+        </form>
+      </div>
+      <button class="toggleFormButton" data-form-id="transferForm-${account.type}" data-show-text="Transfer Money">Transfer Money</button>
+      <div id="transferForm-${account.type}" class="formContainer" style="display: none;">
+        <form action="transfer" method="post" style="display:inline;">
+          <input type="hidden" name="fromAccount" value="${account.type}">
+          <label for="toAccount">To Account:</label>
+          <select id="toAccount" name="toAccount" required>
+            <c:forEach var="accountOption" items="${user.accounts}">
+              <c:if test="${accountOption.type ne account.type}">
+                <option value="${accountOption.type}">${accountOption.type}</option>
+              </c:if>
+            </c:forEach>
+          </select>
+          <label for="amount">Amount:</label>
+          <input min="0" type="number" id="amount" name="amount" step="0.01" required>
+          <button type="submit">Transfer</button>
         </form>
       </div>
     </li>

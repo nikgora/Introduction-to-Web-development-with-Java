@@ -22,6 +22,11 @@ public class AddAccountServlet extends HttpServlet {
         String currency = request.getParameter("currency");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        if (AccountDAO.isExist(user, type)) {
+            request.setAttribute("message", "Account already exists");
+            request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+            return;
+        }
         Account account = new Account(type, balance, currency);
         try {
             AccountDAO.createAccount(account, user);

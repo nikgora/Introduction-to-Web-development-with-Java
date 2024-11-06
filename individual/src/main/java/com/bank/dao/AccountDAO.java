@@ -74,4 +74,76 @@ public class AccountDAO {
             stmt.executeUpdate();
         }
     }
+    public static boolean transferMoney(String fromAccount, String toAccount,User user, double amount) throws SQLException {
+        Connection connection = DatabaseUtil.getConnection();
+        try {
+            connection.setAutoCommit(false);
+
+            PreparedStatement withdrawStmt = connection.prepareStatement(
+                    "UPDATE accounts SET balance = balance - ? WHERE type = ? AND user_id = ?");
+            withdrawStmt.setDouble(1, amount);
+            withdrawStmt.setString(2, fromAccount);
+            withdrawStmt.setInt(3, getUserIdByUsername(user.getUsername()));
+
+            int withdrawResult = withdrawStmt.executeUpdate();
+
+            PreparedStatement depositStmt = connection.prepareStatement(
+                    "UPDATE accounts SET balance = balance + ? WHERE type = ? AND user_id = ?");
+            depositStmt.setDouble(1, amount);
+            depositStmt.setString(2, toAccount);
+            depositStmt.setInt(3, getUserIdByUsername(user.getUsername()));
+            int depositResult = depositStmt.executeUpdate();
+
+            if (withdrawResult == 1 && depositResult == 1) {
+                connection.commit();
+                return true;
+            } else {
+                connection.rollback();
+                return false;
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+            connection.close();
+        }
+    }
+
+    public static Account getAccount(String type, User user) throws SQLException {
+        Account account = new Account();
+
+        int user_id = UserDAO.getUserIdByUsername(user.getUsername());
+        String sql = "SELECT * FROM accounts WHERE type = ? AND user_id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, type);
+            stmt.setInt(2, user_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    account.setBalance(rs.getDouble("balance"));
+                    account.setType(rs.getString("type"));
+                    account.setCurrency(rs.getString("currency"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    public static boolean isExist(User user, String type) {
+        String sql = "SELECT * FROM accounts WHERE type = ? AND user_id = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, type);
+            stmt.setInt(2, getUserIdByUsername(user.getUsername()));
+            try (ResultSet rs = stmt.executeQuery()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
