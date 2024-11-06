@@ -76,7 +76,7 @@
         <form action="deposit" method="post" style="display:inline;">
           <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
-          <input min="0" type="number" name="amount" placeholder="Сума" required>
+          <input min="0" step="0.01"  type="number" name="amount" placeholder="Сума" required>
           <button type="submit">Додати гроші</button>
         </form>
       </div>
@@ -85,7 +85,7 @@
         <form action="withdraw" method="post" style="display:inline;">
           <input type="hidden" name="type" value="${account.type}">
           <input type="hidden" name="currency" value="${account.currency}">
-          <input min="0" type="number" name="amount" placeholder="Сума" required>
+          <input min="0" step="0.01" type="number" name="amount" placeholder="Сума" required>
           <button type="submit">Зняти гроші</button>
         </form>
       </div>
@@ -93,6 +93,7 @@
       <div id="transferForm-${account.type}" class="formContainer" style="display: none;">
         <form action="transfer" method="post" style="display:inline;">
           <input type="hidden" name="fromAccount" value="${account.type}">
+          <input type="hidden" name="currency" value="${account.currency}">
           <label for="toAccount">To Account:</label>
           <select id="toAccount" name="toAccount" required>
             <c:forEach var="accountOption" items="${user.accounts}">
@@ -102,10 +103,17 @@
             </c:forEach>
           </select>
           <label for="amount">Amount:</label>
-          <input min="0" type="number" id="amount" name="amount" step="0.01" required>
+          <input min="0"  type="number" id="amount" name="amount" step="0.01" required>
           <button type="submit">Transfer</button>
         </form>
       </div>
+      <!-- Delete Account Button -->
+      <form action="deleteAccount" method="post" style="display:inline;">
+        <input type="hidden" name="type" value="${account.type}">
+        <input type="hidden" name="currency" value="${account.currency}">
+        <input type="hidden" name="balance" value="${account.balance}">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete this account?');">Delete Account</button>
+      </form>
     </li>
   </c:forEach>
 </ul>

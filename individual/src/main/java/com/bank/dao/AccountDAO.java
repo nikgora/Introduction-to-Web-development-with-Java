@@ -32,13 +32,14 @@ public class AccountDAO {
         return accounts;
     }
     //write deleteAccount method here
-    public static void deleteAccount(Account account) throws SQLException {
-        String sql = "DELETE FROM accounts WHERE type = ? AND balance = ? AND currency = ?";
+    public static void deleteAccount(Account account, User user) throws SQLException {
+        String sql = "DELETE FROM accounts WHERE type = ? AND balance = ? AND currency = ? AND user_id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, account.getType());
             stmt.setDouble(2, account.getBalance());
             stmt.setString(3, account.getCurrency());
+            stmt.setInt(4, getUserIdByUsername(user.getUsername()));
             stmt.executeUpdate();
         }
     }
@@ -139,7 +140,10 @@ public class AccountDAO {
             stmt.setString(1, type);
             stmt.setInt(2, getUserIdByUsername(user.getUsername()));
             try (ResultSet rs = stmt.executeQuery()) {
-                return true;
+                if (rs.next()) {
+                    return true;
+                }
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
