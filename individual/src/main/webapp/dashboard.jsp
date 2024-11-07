@@ -124,7 +124,7 @@
     <label for="type">Ім'я рахунку:</label>
     <input type="text" id="type" name="type" required>
     <label for="balance">Баланс:</label>
-    <input type="number" id="balance" name="balance" required>
+    <input min="0" step="0.01" type="number" id="balance" name="balance" required>
     <label for="currency">Валюта:</label>
     <input type="text" id="currency" name="currency" pattern="[A-Z]{3}" title="Валюта повинна складатися з 3 великих літер" required>
     <button type="submit">Додати рахунок</button>
