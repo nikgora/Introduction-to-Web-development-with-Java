@@ -1,19 +1,16 @@
-package com.bank.servlet;// com.bank.servlet.LoginServlet.java
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
+package com.bank.servlet;
 
 import com.bank.dao.AccountDAO;
 import com.bank.dao.UserDAO;
 import com.bank.model.User;
-import jakarta.servlet.*;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
+import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Отримання параметрів з форми
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -25,16 +22,17 @@ public class LoginServlet extends HttpServlet {
                     user.setAccounts(AccountDAO.getAccountsByUser(user));
                 }
                 session.setAttribute("user", user);
-
                 response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/login.jsp?error=invalid");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
-    private boolean validateUser(String username, String password) throws SQLException {
-        return UserDAO.getUserByUsername(username)!= null && UserDAO.getUserByUsername(username).getPassword().equals(password);
+
+    private boolean validateUser(String username, String password) {
+        User user = UserDAO.getUserByUsername(username);
+        return user != null && user.getPassword().equals(password);
     }
 }

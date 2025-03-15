@@ -1,88 +1,49 @@
 package com.bank.model;
 
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
-/**
- * Represents a bank account with a specific type and balance.
- */
+@Entity
+@Table(name="accounts")
 public class Account implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    private String type;      // Type of the account (e.g., Savings, Checking)
-    private double balance;   // Current balance of the account
-    private String currency;  // Currency of the account
+    @Column(nullable = false)
+    private String type;
 
-    /**
-     * Default constructor.
-     */
-    public Account() {
-    }
+    @Column(nullable = false)
+    private double balance;
 
-    /**
-     * Parameterized constructor to initialize Account with type, balance, and currency.
-     *
-     * @param type     The type of the account.
-     * @param balance  The initial balance of the account.
-     * @param currency The currency of the account.
-     */
+    @Column(nullable = false)
+    private String currency;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
+
+    // Конструкторы
+    public Account() { }
     public Account(String type, double balance, String currency) {
         this.type = type;
         this.balance = balance;
         this.currency = currency;
     }
 
-    public String getType() {
-        return type;
-    }
+    // Геттеры и сеттеры
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public double getBalance() {
-        return balance;
-    }
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "type='" + type + '\'' +
-                ", balance=" + balance +
-                ", currency='" + currency + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Account account = (Account) o;
-
-        if (Double.compare(account.balance, balance) != 0) return false;
-        if (!Objects.equals(type, account.type)) return false;
-        return Objects.equals(currency, account.currency);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        result = type != null ? type.hashCode() : 0;
-        result = 31 * result + Double.hashCode(balance);
-        result = 31 * result + (currency != null ? currency.hashCode() : 0);
-        return result;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }
