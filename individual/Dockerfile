@@ -1,10 +1,8 @@
-# Этап сборки: используем Maven с Java 22 для сборки приложения
-FROM maven:3.9.0-eclipse-temurin-22 AS build
+FROM eclipse-temurin:22 AS build
+RUN apt-get update && apt-get install -y maven
 WORKDIR /app
-# Копируем pom.xml и исходники
 COPY pom.xml .
 COPY src ./src
-# Собираем проект (результат – WAR-файл в target/)
 RUN mvn clean package
 
 # Этап запуска: используем JRE с Java 22 и устанавливаем Tomcat
