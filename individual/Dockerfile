@@ -14,7 +14,7 @@ ENV TOMCAT_VERSION=11.0.0-M26
 RUN apt-get update && apt-get install -y wget tar && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt
 # Загружаем и распаковываем Tomcat из архива Apache
-RUN wget https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+RUN wget https://archive.apache.org/dist/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     tar xvf apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     rm apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     mv apache-tomcat-${TOMCAT_VERSION} tomcat
