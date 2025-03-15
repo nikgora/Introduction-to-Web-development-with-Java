@@ -1,5 +1,5 @@
 # Build stage
-FROM maven:3.9-amazoncorretto-22 AS build
+FROM maven:3.9-eclipse-temurin-22 AS build
 
 WORKDIR /app
 # Copy pom.xml first to leverage Docker cache for dependencies
